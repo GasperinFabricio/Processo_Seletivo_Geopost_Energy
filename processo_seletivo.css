@@ -1,0 +1,122 @@
+.group{
+    position:relative;
+    border: 5px solid palegoldenrod;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size:50px;
+    width:150px;
+    height:100px;
+    margin-left:10px;
+    margin-right:10px;
+    margin-top:30px;
+  }
+.oitava{
+    position:relative;
+    border: 5px solid palegoldenrod;
+    display:flex;
+    justify-content:center;
+    text-align:center;
+    width:75px;
+    height:75px;
+    margin-top:20px;
+}
+.quarta{
+    position:relative;
+    border: 5px solid palegoldenrod;
+    display:flex;
+    justify-content:center;
+    text-align:center;
+    width:75px;
+    height:75px;
+    margin-top:20px;
+    margin-bottom:100px;
+}
+.semifinal{
+    position:relative;
+    border: 5px solid palegoldenrod;
+    display:flex;
+    justify-content:center;
+    text-align:center;
+    width:75px;
+    height:75px;
+    margin-top:20px;
+    margin-bottom:100px;
+}
+#vencedor{
+    position:relative;
+    border: 5px solid palegoldenrod;
+    display:flex;
+    justify-content:center;
+    text-align:center;
+    width:75px;
+    height:75px;
+    margin-top:200px;
+    margin-bottom:100px;
+}
+#container1{
+    float:left;
+    margin-left:100px;
+}
+#container2{
+    float:right;
+    margin-right:100px;
+}
+#container3{
+    position:relative;
+    width:50px;
+    height:500px;
+    margin-top:75px;
+    margin-left:30px;
+    float:left;
+}
+#container4{
+    position:relative;
+    width:50px;
+    height:500px;
+    margin-top:75px;
+    margin-right:60px;
+    float:right;
+}
+#container5{
+    position:relative;
+    width:50px;
+    height:500px;
+    margin-left:60px;
+    margin-top:140px;
+    float:left;
+}
+#container6{
+    position:relative;
+    width:50px;
+    height:500px;
+    margin-right:60px;
+    margin-top:140px;
+    float:right;
+}
+#container7{
+    position:relative;
+    width:50px;
+    height:500px;
+    margin-left:60px;
+    margin-top:230px;
+    float:left;
+}
+#container8{
+    position:relative;
+    width:50px;
+    height:500px;
+    margin-right:60px;
+    margin-top:230px;
+    float:right;
+}
+#container9{
+    position:relative;
+    width:50px;
+    height:500px;
+    margin-left:630px;
+}
+body {
+    background-color:#540062
+}
