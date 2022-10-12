@@ -17,14 +17,14 @@ var myInit = { method: 'GET',
               }
               
 var array_team = [];
-let team_groups = [ group1 = [], group2 = [], group3 = [], group4 = [], group5 = [], group6 = [], group7 = [], group8 = [] ]
-let blacklist = [];
+var team_groups = [ group1 = [], group2 = [], group3 = [], group4 = [], group5 = [], group6 = [], group7 = [], group8 = [] ]
 
 getResponse().then(data => {
-  for(let i = 0; i < 32; i++){
+  for(var i = 0; i < 32; i++){
   array_team[i] = data.Result[i].Name;
-  randomize_team(array_team)
-  }
+}
+randomize_team(array_team);
+distribute_team(team_groups, array_team);
 } );
 
 function randomize_score(){
@@ -46,6 +46,10 @@ function randomize_team(array) {
   }
 }
 
-function distribute_team(array){
-  for(let i = 0; i)
+function distribute_team(array1, array2){
+  var x = 0;
+    for(var i = 0; i < 8; i++){
+        array1[i].push(array2[x], array2[x+1], array2[x+2], array2[x+3]);
+        x += 4;
+    }
 }
