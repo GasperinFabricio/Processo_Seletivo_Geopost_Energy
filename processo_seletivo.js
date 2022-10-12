@@ -38,14 +38,14 @@ var team_group_goals = [
   group8_goals = []
 ]
 var team_group_score = [
-  group1_score = 0,
-  group2_score = 0,
-  group3_score = 0,
-  group4_score = 0,
-  group5_score = 0,
-  group6_score = 0,
-  group7_score = 0,
-  group8_score = 0
+  group1_score = [],
+  group2_score = [],
+  group3_score = [],
+  group4_score = [],
+  group5_score = [],
+  group6_score = [],
+  group7_score = [],
+  group8_score = []
 ]
 var i = 0;
 getResponse().then(data => {
@@ -54,9 +54,8 @@ getResponse().then(data => {
 }
 randomize_team(array_team);
 distribute_team(team_groups, array_team);
-for(var i = 0; i < 8; i++){
-  round_start(i ,group1, team_group_goals, team_group_score);
-}
+round_start(0 ,group1, group1_goals, group1_score);
+
 } );
 function linebreak(){
   document.write("<br>");
@@ -80,96 +79,121 @@ function randomize_team(array) {
   }
 }
 
-function distribute_team(array1, array2){
+function distribute_team(array_group, array_goal){
   var x = 0;
     for(var i = 0; i < 8; i++){
-        array1[i].push(array2[x], array2[x+1], array2[x+2], array2[x+3]);
+        array_group[i].push(array_goal[x], array_goal[x+1], array_goal[x+2], array_goal[x+3]);
         x += 4;
     }
 }
 
-function round_start(x ,array1, array2, array3){
+function round_start(x ,array_group, array_goal, array_score){
   y = x;
-  for(var y = 0; y < (x+4); y++){
+  for(;;){
     if(y == (x+3)){
       console.log("AAAAAAAAAAAAAA");
-      group_round2(y, array1, array2, array3);
+      group_round2(y, array_group, array_goal, array_score);
+      break;
+    }else if(y == (x+1)){
+      group_round(y, array_group, array_goal, array_score);
+      y+=2;
     }else {
       console.log("bbbbbbbbbbbbbbbbbbbb");
-      group_round(y, array1, array2, array3);
+      group_round(y, array_group, array_goal, array_score);
+      y++
     }
+    
   }
 }
 
-function group_round(i, array1, array2, array3){
-  document.write(`${array1[i]} VS ${array1[i+1]}`);
-  linebreak()
+function group_round(i, array_group, array_goal, array_score){
+  var temp_goal1 = 0;
+  var temp_goal2 = 0;
+  linebreak();linebreak();
+  document.write(`${array_group[i]} VS ${array_group[i+1]} ROUND NORMAL`);
+  linebreak();linebreak();
   //simulação de gol
-  array2[i] = randomize_goal()
-  array2[i+1] = randomize_goal()
+  temp_goal1 = randomize_goal();
+  temp_goal2 = randomize_goal();
   //demonstração de gols na tela
-  document.write(`${array1[i]} ${array2[i]} gols & ${array1[i+1]} ${array2[i+1]} gols`);
+  document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i+1]} ${temp_goal2} gols`);
   linebreak()
+  array_goal[i] = temp_goal1;
+  array_goal[i+1] =temp_goal2;
+  temp_goal1 = 0;
+  temp_goal2 = 0;
   //denominar o vencedor e atribuir pontos
-  if(array2[i] > array2[i+1]){ // No caso de time do Array2 possuir mais gols, ele recebe 3 pontos
-    array3[i] += 3;
-  } else if(array2[i] < array2[i+1]){// No caso do time do Array2 possuir menos gols, o time inimigo recebe 3 pontos
-    array3[i+1] += 3;
+  if(array_goal[i] > array_goal[i+1]){ // No caso de time do array_goal possuir mais gols, ele recebe 3 pontos
+    array_score[i] += 3;
+  } else if(array_goal[i] < array_goal[i+1]){// No caso do time do array_goal possuir menos gols, o time inimigo recebe 3 pontos
+    array_score[i+1] += 3;
   } else{// Se nenhum dos dois casos acima for efetuado, é um empate e ambos recebem 1 ponto.
-    array3[i] += 1;
-    array3[i + 1] += 1;
+    array_score[i] += 1;
+    array_score[i + 1] += 1;
   }
-    document.write(`${array1[i]} VS ${array1[i+2]}`);
-    linebreak()
+    linebreak();linebreak();
+    document.write(`${array_group[i]} VS ${array_group[i+2]}`);
+    linebreak();linebreak();
     //simulação de gol
-    array2[i] = randomize_goal()
-    array2[i+2] = randomize_goal()
-    document.write(`${array1[i]} ${array2[i]} gols & ${array1[i+2]} ${array2[i+2]} gols`);
+    temp_goal1 = randomize_goal();
+    temp_goal2 = randomize_goal();
+    document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i+2]} ${temp_goal2} gols`);
     linebreak()
+    array_goal[i] = temp_goal1;
+    array_goal[i+2] = temp_goal2;
   //denominar o vencedor e atribuir pontos
-  if(array2[i] > array2[i+2]){ // No caso de time do Array2 possuir mais gols, ele recebe 3 pontos
-    array3[i] += 3;
-  } else if(array2[i] < array2[i+2]){// No caso do time do Array2 possuir menos gols, o time inimigo recebe 3 pontos
-    array3[i+2] += 3;
+  if(array_goal[i] > array_goal[i+2]){ // No caso de time do array_goal possuir mais gols, ele recebe 3 pontos
+    array_score[i] += 3;
+  } else if(array_goal[i] < array_goal[i+2]){// No caso do time do array_goal possuir menos gols, o time inimigo recebe 3 pontos
+    array_score[i+2] += 3;
   } else{// Se nenhum dos dois casos acima for efetuado, é um empate e ambos recebem 1 ponto.
-    array3[i] += 1;
-    array3[i + 2] += 1;
+    array_score[i] += 1;
+    array_score[i + 2] += 1;
   }
 }
 
-function group_round2(i, array1, array2, array3){
-  document.write(`${array1[i]} VS ${array1[i-1]}`);
-  
-  linebreak()
+function group_round2(i, array_group, array_goal, array_score){
+  var temp_goal1 = 0;
+  var temp_goal2 = 0;
+  linebreak();linebreak();
+  document.write(`${array_group[i]} VS ${array_group[i-1]} ROUND ESPECIAL`);
+  linebreak();linebreak();
   //simulação de gol
-  array2[i] = randomize_goal()
-  array2[i-1] = randomize_goal()
+  temp_goal1 = randomize_goal();
+  temp_goal2 = randomize_goal();
   //demonstração de gols na tela
-  document.write(`${array1[i]} scored ${array2[i]} goals & ${array1[i-1]} scored ${array2[i-1]} goals`);
+  document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i-1]} ${temp_goal2} gols`);
   linebreak()
+  array_goal[i] = temp_goal1;
+  array_goal[i-1] =temp_goal2;
+  temp_goal1 = 0;
+  temp_goal2 = 0;
   //denominar o vencedor e atribuir pontos
-  if(array2[i] > array2[i-1]){ // No caso de time do Array2 possuir mais gols, ele recebe 3 pontos
-    array3[i] += 3;
-  } else if(array2[i] < array2[i-1]){// No caso do time do Array2 possuir menos gols, o time inimigo recebe 3 pontos
-    array3[i-1] += 3;
+  if(array_goal[i] > array_goal[i-1]){ // No caso de time do array_goal possuir mais gols, ele recebe 3 pontos
+    array_score[i] += 3;
+  } else if(array_goal[i] < array_goal[i-1]){// No caso do time do array_goal possuir menos gols, o time inimigo recebe 3 pontos
+    array_score[i-1] += 3;
   } else{// Se nenhum dos dois casos acima for efetuado, é um empate e ambos recebem 1 ponto.
-    array3[i] += 1;
-    array3[i - 1] += 1;
+    array_score[i] += 1;
+    array_score[i-1] += 1;
   }
-    document.write(`${array1[i]} VS ${array1[i-3]}`);
-    linebreak()
+    linebreak();linebreak();
+    document.write(`${array_group[i]} VS ${array_group[i-3]}`);
+    linebreak();linebreak();
     //simulação de gol
-    array2[i] = randomize_goal()
-    array2[i-3] = randomize_goal()
-    document.write(`${array1[i]} scored ${array2[i]} goals & ${array1[i+2]} scored ${array2[i+2]} goals`);
+    temp_goal1 = randomize_goal();
+    temp_goal2 = randomize_goal();
+    document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i-3]} ${temp_goal2} gols`);
     linebreak()
+    array_goal[i] = temp_goal1;
+    array_goal[i-3] = temp_goal2;
   //denominar o vencedor e atribuir pontos
-  if(array2[i] > array2[i-3]){ // No caso de time do Array2 possuir mais gols, ele recebe 3 pontos
-    array3[i] += 3;
-  } else if(array2[i] < array2[i-3]){// No caso do time do Array2 possuir menos gols, o time inimigo recebe 3 pontos
-    array3[i-3] += 3;
+  if(array_goal[i] > array_goal[i-3]){ // No caso de time do array_goal possuir mais gols, ele recebe 3 pontos
+    array_score[i] += 3;
+  } else if(array_goal[i] < array_goal[i-3]){// No caso do time do array_goal possuir menos gols, o time inimigo recebe 3 pontos
+    array_score[i-3] += 3;
   } else{// Se nenhum dos dois casos acima for efetuado, é um empate e ambos recebem 1 ponto.
-    array3[i] += 1;
-    array3[i - 3] += 1;
+    array_score[i] += 1;
+    array_score[i-3] += 1;
   }
 }
