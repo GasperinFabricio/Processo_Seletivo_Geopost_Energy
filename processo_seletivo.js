@@ -24,7 +24,8 @@ var team_groups = [
     group6 = [],
     group7 = [],
     group8 = []
-  ] 
+  ] ;
+var temp_array;
 var team_group_goals = [
   group1_goals = [0, 0, 0, 0],
   group2_goals = [0, 0, 0, 0],
@@ -34,7 +35,7 @@ var team_group_goals = [
   group6_goals = [0, 0, 0, 0],
   group7_goals = [0, 0, 0, 0],
   group8_goals = [0, 0, 0, 0]
-]
+];
 var team_group_score = [
   group1_score = [0, 0, 0, 0],
   group2_score = [0, 0, 0, 0],
@@ -44,7 +45,7 @@ var team_group_score = [
   group6_score = [0, 0, 0, 0],
   group7_score = [0, 0, 0, 0],
   group8_score = [0, 0, 0, 0]
-]
+];
 var group_winners = [
   group_winnerA = [],
   group_winnerB = [],
@@ -54,7 +55,7 @@ var group_winners = [
   group_winnerF = [],
   group_winnerG = [],
   group_winnerH = []
-]
+];
 var team_groups_oitava = [
   oitava_1A2B = [],
   oitava_1B2A = [],
@@ -65,13 +66,45 @@ var team_groups_oitava = [
   oitava_1G2H = [],
   oitava_1H2G = []
 
-]
-var group_quartas_winners = [
-  quartas_winner1 = [],
-  quartas_winner1 = [],
-  quartas_winner1 = [],
-  quartas_winner1 = []
-]
+];
+var oitavas_score = [
+  oitavas_scoreAB = [0,0],
+  oitavas_scoreCD = [0,0],
+  oitavas_scoreEF = [0,0],
+  oitavas_scoreGH = [0,0],
+  oitavas_scoreBA = [0,0],
+  oitavas_scoreDC = [0,0],
+  oitavas_scoreFE = [0,0],
+  oitavas_scoreHG = [0,0]
+];
+var oitavas_goals = [
+  oitavas_goalsAB = [0,0],
+  oitavas_goalsCD = [0,0],
+  oitavas_goalsEF = [0,0],
+  oitavas_goalsGH = [0,0],
+  oitavas_goalsBA = [0,0],
+  oitavas_goalsDC = [0,0],
+  oitavas_goalsFE = [0,0],
+  oitavas_goalsHG = [0,0]
+];
+var quartas_winners = [
+  quartas_winnerABCD = [],
+  quartas_winnerEFGH = [],
+  quartas_winnerBADC = [],
+  quartas_winnerFEHG = []
+];
+var quartas_score = [
+  quartas_score1 = [0,0],
+  quartas_score2 = [0,0]
+];
+var quartas_goals = [
+  quartas_goals1 = [0,0],
+  quartas_goals2 = [0,0]
+];
+var semifinal_array = [];
+var last_score = [0,0];
+var last_goal = [0,0];
+var mvp_winner = [];
 var i = 0;
 getResponse().then(data => {
   for(var i = 0; i < 32; i++){
@@ -80,9 +113,14 @@ getResponse().then(data => {
 randomize_team(array_team);
 distribute_team(team_groups, array_team);
 all_round(team_groups, team_group_goals, team_group_score);
-//round_start(group2, group2_goals, group2_score);
 select_all_winners(team_groups, team_group_score, team_group_goals, group_winners);
-distribute_oitava(group_winners, team_groups_oitava)
+distribute_oitava(group_winners, team_groups_oitava);
+all_quarta_match(oitavas_score, oitavas_goals);
+quarta_winners(team_groups_oitava, oitavas_score, oitavas_goals);
+quartas_battle_all(quartas_score, quartas_goals);
+semifinal(semifinal_array, quartas_winners, quartas_score, quartas_goals, temp_array);
+last_match(last_score,last_goal);
+last_winner(last_score,last_goal,semifinal_array, mvp_winner)
 } );
 //Quebra de linha
 function linebreak(){
@@ -90,7 +128,7 @@ function linebreak(){
 }
 //Gera um número aleatório que representa a quantidade de gols de um time dentro de uma partida.
 function randomize_goal(){
-  x = Math.floor(Math.random() * 5);
+  x = Math.floor(Math.random() * 10);
   return x;
 }
 //Divide os times aleatoriamente
@@ -238,6 +276,9 @@ function group_round2(i, array_group, array_goal, array_score){
 function generate_random_winner(){
   return Math.floor(Math.round(Math.random() * 3));
 }
+function generate_random_quarta_winners(){
+  return Math.floor(Math.random() * 1)
+}
 //Função para receber os vetores de grupo, pontuação e gol para denominar os vencedores.
 function select_winner(array_group, array_score, array_goal, victorious_array){
   var winner = 0, goal_winner = 0, goal_winner_name;
@@ -310,5 +351,156 @@ function distribute_oitava(victorious_array, array_group_oitava){
     array_group_oitava[i+4][0] = victorious_array[i][1];
     array_group_oitava[i][1] = victorious_array[i+1][1];
     array_group_oitava[i+4][1] = victorious_array[i+1][0];
+  }
+}
+function quarta_match(array_score_oitava, array_score_goals){
+  var goal_temp1, goal_temp2;
+  goal_temp1 = randomize_goal()
+  goal_temp2 = randomize_goal()
+  array_score_goals[0] += goal_temp1;
+  array_score_goals[1] += goal_temp2;
+  if(goal_temp1 > goal_temp2){
+    array_score_oitava[0] += 3;
+  } else if(goal_temp2 > goal_temp1){
+    array_score_oitava[1] += 3;
+  }else{
+    array_score_oitava[0] +=1;
+    array_score_oitava[1] +=1;
+  }
+}
+
+function all_quarta_match(array_score_oitava_all, array_score_goal_all){
+  for(var i = 0; i < 8; i++){
+    console.log("algo deu errado mas nao deu certo")
+    quarta_match(array_score_oitava_all[i], array_score_goal_all[i])
+  }
+}
+function quarta_winner(winner_quartas, array_oitava, array_score_oitava, array_score_goals){
+  var i = 0;
+  if(array_score_oitava[i] > array_score_oitava[i+1]){
+    winner_quartas[0] = array_oitava[i];
+  } else if (array_score_oitava[i] < array_score_oitava[i+1]){
+    winner_quartas[0] = array_oitava[i+1];
+  } else{
+    if(array_score_goals[i] > array_score_goals[i+1]){
+      winner_quartas[0] = array_oitava[i];
+    } else if (array_score_goals[i] > array_score_goals[i+1]){
+      winner_quartas[0] = array_oitava[i+1];
+    } else {
+      winner_quartas[0] = array_oitava[generate_random_quarta_winners()];
+    }
+  }
+
+}
+function quarta_winners(array_oitava, array_score_oitava, array_score_goals){
+  var j = 0;
+  for(var i = 0; i < 8; i++){
+    if(i != 0 & i % 2 == 0){
+      j++;
+    }
+    quarta_winner(quartas_winners[j], array_oitava[i], array_score_oitava[i], array_score_goals[i]);
+
+  }
+}
+function quartas_battle(array_score_quartas, array_score_goals_quartas){
+  var i = 0;
+  var goal_temp1 = randomize_goal();
+  var goal_temp2 = randomize_goal();
+  array_score_goals_quartas[i] = goal_temp1;
+  array_score_goals_quartas[i+1] = goal_temp2;
+  if(goal_temp1 > goal_temp2){
+    array_score_quartas[i] = 3;
+    array_score_quartas[i+1] = 0;
+  } else if(goal_temp1 < goal_temp2){
+    array_score_quartas[i+1] = 3;
+    array_score_quartas[i] = 0;
+  } else {
+    array_score_quartas[i] = 1;
+    array_score_quartas[i+1] = 1;
+  }
+}
+function quartas_battle_all(array_score_quartas, array_score_goals_quartas){
+  for(var i = 0; i < 2; i++){
+    quartas_battle(array_score_quartas[i], array_score_goals_quartas[i])
+  }
+}
+function select_semifinal(semifinals_array ,array_quartas, array_score_quartas, array_score_goals_quartas, temp_array){
+  var x;
+  if(array_score_quartas[0] > array_score_quartas[1]){
+    semifinals_array.push(array_quartas[0])
+  } else if (array_score_quartas[0] < array_score_quartas[1]){
+    semifinals_array.push(array_quartas[1])
+  } else {
+    if(array_score_goals_quartas[0] > array_score_goals_quartas[1]){
+      semifinals_array.push(array_quartas[0])
+    } else if(array_score_goals_quartas[0] < array_score_goals_quartas[1]){
+      semifinals_array.push(array_quartas[1])
+    } else {
+      do{
+        x  = generate_random_quarta_winners()
+      }while(x == temp_array)
+      temp_array = x;
+      semifinals_array.push(array_quartas[x]);
+    }
+  }
+}
+function select_semifinal2(semifinals_array ,array_quartas, array_score_quartas, array_score_goals_quartas, temp_array){
+  var x;
+  if(array_score_quartas[0] > array_score_quartas[1]){
+    semifinals_array.push(array_quartas[2])
+  } else if (array_score_quartas[0] < array_score_quartas[1]){
+    semifinals_array.push(array_quartas[3])
+  } else {
+    if(array_score_goals_quartas[0] > array_score_goals_quartas[1]){
+      semifinals_array.push(array_quartas[2])
+    } else if(array_score_goals_quartas[0] < array_score_goals_quartas[1]){
+      semifinals_array.push(array_quartas[3])
+    } else {
+      do{
+        x  = generate_random_quarta_winners()
+      }while(x == temp_array)
+      temp_array = x;
+      semifinals_array.push(array_quartas[x]);
+    }
+  }
+}
+function semifinal(semifinals_array, array_quartas, array_score_quartas, array_score_goals_quartas, temp_array){
+  for(var i = 0; i < 2; i++){
+    if(i == 1){
+      select_semifinal2(semifinals_array, array_quartas, array_score_quartas[i], array_score_goals_quartas[i], temp_array)
+    } else {
+      select_semifinal(semifinals_array, array_quartas, array_score_quartas[i], array_score_goals_quartas[i], temp_array);
+    
+    }
+  }
+}
+function last_match(last_score, last_goal){
+  var temp_goal1 = randomize_goal();
+  var temp_goal2 = randomize_goal();
+  last_goal[0] = temp_goal1;
+  last_goal[1] = temp_goal2;
+  if(temp_goal1 > temp_goal2){
+    last_score[0] = 3;
+  } else if (temp_goal1 < temp_goal2){
+    last_score[1] = 3;
+  } else {
+    last_score[0] = 1;
+    last_score[1] = 1;
+  }
+}
+function last_winner(last_score, last_goal, semifinal_array, mvp_winner){
+  if(last_score[0] > last_score[1]){
+    mvp_winner.push(semifinal_array[0]);
+  } else if(last_score[0] < last_score[1]){
+    mvp_winner.push(semifinal_array[1]);
+  } else {
+    if(last_goal[0] > last_score[1]){
+      mvp_winner.push(semifinal_array[0]);
+    } else if(last_goal[0] < last_goal[1]){
+      mvp_winner.push(semifinal_array[1]);
+    } else {
+      var y = Math.round(Math.random());
+      mvp_winner.push(semifinal_array[y]);
+    }
   }
 }
