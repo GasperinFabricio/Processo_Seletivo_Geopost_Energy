@@ -5,7 +5,6 @@ myHeaders = new Headers({
 var myInit = { method: 'GET',
                headers: myHeaders,
              };
-             var Johnson, Johnson1;
              var api_url = "https://estagio.geopostenergy.com/WorldCup/GetAllTeams";
              async function getResponse() {
                const response = await fetch(api_url, myInit);
@@ -15,7 +14,6 @@ var myInit = { method: 'GET',
                 const data = await response.json();
                 return data;
               }
-              
 var array_team = [];
 var team_groups = [
     group1 = [],
@@ -47,6 +45,33 @@ var team_group_score = [
   group7_score = [0, 0, 0, 0],
   group8_score = [0, 0, 0, 0]
 ]
+var group_winners = [
+  group_winnerA = [],
+  group_winnerB = [],
+  group_winnerC = [],
+  group_winnerD = [],
+  group_winnerE = [],
+  group_winnerF = [],
+  group_winnerG = [],
+  group_winnerH = []
+]
+var team_groups_oitava = [
+  oitava_1A2B = [],
+  oitava_1B2A = [],
+  oitava_1C2D = [],
+  oitava_1D2C = [],
+  oitava_1E2F = [],
+  oitava_1F2E = [],
+  oitava_1G2H = [],
+  oitava_1H2G = []
+
+]
+var group_quartas_winners = [
+  quartas_winner1 = [],
+  quartas_winner1 = [],
+  quartas_winner1 = [],
+  quartas_winner1 = []
+]
 var i = 0;
 getResponse().then(data => {
   for(var i = 0; i < 32; i++){
@@ -56,7 +81,8 @@ randomize_team(array_team);
 distribute_team(team_groups, array_team);
 all_round(team_groups, team_group_goals, team_group_score);
 //round_start(group2, group2_goals, group2_score);
-
+select_all_winners(team_groups, team_group_score, team_group_goals, group_winners);
+distribute_oitava(group_winners, team_groups_oitava)
 } );
 //Quebra de linha
 function linebreak(){
@@ -77,13 +103,14 @@ function randomize_team(array) {
   }
 }
 // Distribui os times para os arrays
-function distribute_team(array_group, array_goal){
+function distribute_team(array_group, array_team){
   var x = 0;
     for(var i = 0; i < 8; i++){
-        array_group[i].push(array_goal[x], array_goal[x+1], array_goal[x+2], array_goal[x+3]);
+        array_group[i].push(array_team[x], array_team[x+1], array_team[x+2], array_team[x+3]);
         x += 4;
     }
 }
+//Parâmetros no plural por pegar o vetor que possui todos os vetores de seu tipo.
 function all_round(array_groups, array_goals, array_score){
   for(var i = 0; i < 8; i++){
     round_start(array_groups[i], array_goals[i], array_score[i]);
@@ -92,21 +119,19 @@ function all_round(array_groups, array_goals, array_score){
 //Utiliza a função group_round e group_round2 para simular uma rodada.
 function round_start(array_group, array_goal, array_score){
   y = 0;
-  for(;;){
+  do{
     if(y == 3){
-      console.log("AAAAAAAAAAAAAA");
       group_round2(y, array_group, array_goal, array_score);
-      break;
+      y++;
     }else if(y == 1){
       group_round(y, array_group, array_goal, array_score);
       y+=2;
     }else {
-      console.log("bbbbbbbbbbbbbbbbbbbb");
       group_round(y, array_group, array_goal, array_score);
       y++
     }
     
-  }
+  }while(y <= 3);
 }
 //Função groupd_round para as primeiras duas rodadas de um grupo
 function group_round(i, array_group, array_goal, array_score){
@@ -207,5 +232,83 @@ function group_round2(i, array_group, array_goal, array_score){
   } else{// Se nenhum dos dois casos acima for efetuado, é um empate e ambos recebem 1 ponto.
     array_score[i] += 1;
     array_score[i-3] += 1;
+  }
+}
+//Escolhe um número entre 0 e 4, sinalizando o índice do vetor
+function generate_random_winner(){
+  return Math.floor(Math.round(Math.random() * 3));
+}
+//Função para receber os vetores de grupo, pontuação e gol para denominar os vencedores.
+function select_winner(array_group, array_score, array_goal, victorious_array){
+  var winner = 0, goal_winner = 0, goal_winner_name;
+  var second_winner = 0, second_goal_winner = 0, second_goal_winner_name;
+  var winner_location, goal_winner_location;
+  var second_winner_location, second_goal_winner_location;
+  var random_winner1, random_winner2;
+  var same, same_goal;
+  if(array_score[0] == array_score[1] && array_score[1] == array_score[2] && array_score[2] == array_score[3]){
+    same = true;
+    for(var i = 0; i < 4; i++){
+      if(array_goal[i] > goal_winner){
+        goal_winner_location = i;
+        goal_winner = array_goal[i]
+        goal_winner_name = array_group[i]
+      }
+      if(array_goal[i] > second_goal_winner)
+        if(i != goal_winner_location){
+          second_goal_winner_location = i;
+          second_goal_winner = array_goal[i];
+          second_goal_winner_name = array_group[i]
+        }
+    }
+    if(array_goal[0] == array_goal[1] && array_goal[1] == array_goal[2] && array_goal[2] == array_goal[3]){
+      same_goal = true;
+      same = false;
+      random_winner1 = generate_random_winner();
+      random_winner2 = generate_random_winner();
+      do{
+        random_winner2 = generate_random_winner();
+      }while(random_winner2 == random_winner1);
+      
+    }
+  } else {
+
+    for(var i = 0; i < 4; i++){
+      if(array_score[i] > winner){
+        winner = array_score[i];
+        winner_location = i;
+      }
+    }
+    for(var i = 0; i < 4; i++){
+      if(array_score[i] > second_winner){
+        if(i != winner_location){
+          second_winner = array_score[i];
+          second_winner_location = i;
+        }
+      }
+    }
+  }
+  if(same){
+    victorious_array[0] = array_group[goal_winner_location];
+    victorious_array[1] = array_group[second_goal_winner_location];
+  }else if(same_goal){
+    victorious_array[0] = array_group[random_winner1];
+    victorious_array[1] = array_group[random_winner2];
+  } else {
+    victorious_array[0] = array_group[winner_location];
+    victorious_array[1] = array_group[second_winner_location];
+  }
+}
+function select_all_winners(array_group_father, array_score_father, array_goal_father, victorious_array_father){
+  for(var i = 0; i < 8; i++){
+    select_winner(array_group_father[i], array_score_father[i], array_goal_father[i], victorious_array_father[i])
+  }
+}
+function distribute_oitava(victorious_array, array_group_oitava){
+  for(var i = 0; i < 4; i++){
+    array_group_oitava[i][0] = victorious_array[i][0];
+    array_group_oitava[i+4][0] = victorious_array[i][1];
+    array_group_oitava[i][1] = victorious_array[i+1][1];
+    array_group_oitava[i+4][1] = victorious_array[i+1][0];
   }
 }
