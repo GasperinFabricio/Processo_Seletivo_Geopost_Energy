@@ -121,6 +121,7 @@ quartas_battle_all(quartas_score, quartas_goals);
 semifinal(semifinal_array, quartas_winners, quartas_score, quartas_goals, temp_array);
 last_match(last_score,last_goal);
 last_winner(last_score,last_goal,semifinal_array, mvp_winner)
+distribute_html();
 } );
 //Quebra de linha
 function linebreak(){
@@ -175,15 +176,15 @@ function round_start(array_group, array_goal, array_score){
 function group_round(i, array_group, array_goal, array_score){
   var temp_goal1 = 0;
   var temp_goal2 = 0;
-  linebreak();linebreak();
-  document.write(`${array_group[i]} VS ${array_group[i+1]} ROUND NORMAL`);
-  linebreak();linebreak();
+  //linebreak();linebreak();
+  //document.write(`${array_group[i]} VS ${array_group[i+1]} ROUND NORMAL`);
+  //linebreak();linebreak();
   //simulação de gol
   temp_goal1 = randomize_goal();
   temp_goal2 = randomize_goal();
   //demonstração de gols na tela
-  document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i+1]} ${temp_goal2} gols`);
-  linebreak()
+  //document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i+1]} ${temp_goal2} gols`);
+  //linebreak()
   array_goal[i] += temp_goal1;
   array_goal[i+1] +=temp_goal2;
   //denominar o vencedor e atribuir pontos
@@ -195,16 +196,16 @@ function group_round(i, array_group, array_goal, array_score){
     array_score[i] += 1;
     array_score[i + 1] += 1;
   }
-  linebreak();linebreak();
+  //linebreak();linebreak();
   temp_goal1 = 0;
   temp_goal2 = 0;
-  document.write(`${array_group[i]} VS ${array_group[i+2]}`);
-  linebreak();linebreak();
+  //document.write(`${array_group[i]} VS ${array_group[i+2]}`);
+  //linebreak();linebreak();
   //simulação de gol
   temp_goal1 = randomize_goal();
   temp_goal2 = randomize_goal();
-  document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i+2]} ${temp_goal2} gols`);
-  linebreak()
+  //document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i+2]} ${temp_goal2} gols`);
+  //linebreak()
   array_goal[i] += temp_goal1;
   array_goal[i+2] += temp_goal2;
   //denominar o vencedor e atribuir pontos
@@ -230,15 +231,15 @@ function group_round(i, array_group, array_goal, array_score){
 function group_round2(i, array_group, array_goal, array_score){
   var temp_goal1 = 0;
   var temp_goal2 = 0;
-  linebreak();linebreak();
-  document.write(`${array_group[i]} VS ${array_group[i-1]} ROUND ESPECIAL`);
-  linebreak();linebreak();
+ // linebreak();linebreak();
+ // document.write(`${array_group[i]} VS ${array_group[i-1]} ROUND ESPECIAL`);
+  //linebreak();linebreak();
   //simulação de gol
   temp_goal1 = randomize_goal();
   temp_goal2 = randomize_goal();
   //demonstração de gols na tela
-  document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i-1]} ${temp_goal2} gols`);
-  linebreak()
+ // document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i-1]} ${temp_goal2} gols`);
+  //linebreak()
   array_goal[i] += temp_goal1;
   array_goal[i-1] +=temp_goal2;
   //denominar o vencedor e atribuir pontos
@@ -252,14 +253,14 @@ function group_round2(i, array_group, array_goal, array_score){
   }
   temp_goal1 = 0;
   temp_goal2 = 0;
-  linebreak();linebreak();
-  document.write(`${array_group[i]} VS ${array_group[i-3]}`);
-  linebreak();linebreak();
+  //linebreak();linebreak();
+ // document.write(`${array_group[i]} VS ${array_group[i-3]}`);
+  //linebreak();linebreak();
   //simulação de gol
   temp_goal1 = randomize_goal();
   temp_goal2 = randomize_goal();
-  document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i-3]} ${temp_goal2} gols`);
-  linebreak()
+ // document.write(`${array_group[i]} ${temp_goal1} gols & ${array_group[i-3]} ${temp_goal2} gols`);
+  //linebreak()
   array_goal[i] += temp_goal1;
   array_goal[i-3] += temp_goal2;
   //denominar o vencedor e atribuir pontos
@@ -371,7 +372,6 @@ function quarta_match(array_score_oitava, array_score_goals){
 
 function all_quarta_match(array_score_oitava_all, array_score_goal_all){
   for(var i = 0; i < 8; i++){
-    console.log("algo deu errado mas nao deu certo")
     quarta_match(array_score_oitava_all[i], array_score_goal_all[i])
   }
 }
@@ -503,4 +503,34 @@ function last_winner(last_score, last_goal, semifinal_array, mvp_winner){
       mvp_winner.push(semifinal_array[y]);
     }
   }
+}
+function distribute_html(){
+  document.querySelector("#vencedor").innerHTML = mvp_winner[0];
+
+  document.querySelector("#semifinalE").innerHTML = semifinal_array[0];
+  document.querySelector("#semifinalD").innerHTML = semifinal_array[1];
+
+  document.querySelector("#quartasABCD").innerHTML = quartas_winnerBADC[0];
+  document.querySelector("#quartasEFGH").innerHTML = quartas_winnerEFGH[0];
+  document.querySelector("#quartasBADC").innerHTML = quartas_winnerABCD[0];
+  document.querySelector("#quartasFEHG").innerHTML = quartas_winnerFEHG[0];
+  
+  document.querySelector("#oitavas1A2B").innerHTML = `${oitava_1A2B[0]}<br/ >${oitava_1A2B[1]}`;
+  document.querySelector("#oitavas1C2D").innerHTML = `${oitava_1C2D[0]}<br/ >${oitava_1C2D[1]}`;
+  document.querySelector("#oitavas1E2F").innerHTML = `${oitava_1E2F[0]}<br/ >${oitava_1E2F[1]}`;
+  document.querySelector("#oitavas1G2H").innerHTML = `${oitava_1G2H[0]}<br/ >${oitava_1G2H[1]}`;
+  document.querySelector("#oitavas1B2A").innerHTML = `${oitava_1B2A[0]}<br/ >${oitava_1B2A[1]}`;
+  document.querySelector("#oitavas1D2C").innerHTML = `${oitava_1D2C[0]}<br/ >${oitava_1D2C[1]}`;
+  document.querySelector("#oitavas1F2E").innerHTML = `${oitava_1F2E[0]}<br/ >${oitava_1F2E[1]}`;
+  document.querySelector("#oitavas1H2G").innerHTML = `${oitava_1H2G[0]}<br/ >${oitava_1H2G[1]}`;
+  
+  
+  document.querySelector("#groupA").innerHTML = `${group1[0]}<br/ >${group1[1]}<br/ >${group1[2]}<br/ >${group1[3]}`
+  document.querySelector("#groupB").innerHTML = `${group2[0]}<br/ >${group2[1]}<br/ >${group2[2]}<br/ >${group2[3]}`
+  document.querySelector("#groupC").innerHTML = `${group3[0]}<br/ >${group3[1]}<br/ >${group3[2]}<br/ >${group3[3]}`
+  document.querySelector("#groupD").innerHTML = `${group4[0]}<br/ >${group4[1]}<br/ >${group4[2]}<br/ >${group4[3]}`
+  document.querySelector("#groupE").innerHTML = `${group5[0]}<br/ >${group5[1]}<br/ >${group5[2]}<br/ >${group5[3]}`
+  document.querySelector("#groupF").innerHTML = `${group6[0]}<br/ >${group6[1]}<br/ >${group6[2]}<br/ >${group6[3]}`
+  document.querySelector("#groupG").innerHTML = `${group7[0]}<br/ >${group7[1]}<br/ >${group7[2]}<br/ >${group7[3]}`
+  document.querySelector("#groupH").innerHTML = `${group8[0]}<br/ >${group8[1]}<br/ >${group8[2]}<br/ >${group8[3]}`
 }
