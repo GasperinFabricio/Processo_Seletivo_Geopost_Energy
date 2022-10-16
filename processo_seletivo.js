@@ -517,9 +517,9 @@ function distribute_html(){
   
   document.querySelector("#oitavas1A2B").innerHTML = `${oitava_1A2B[0]}<br/ >${oitava_1A2B[1]}`;
   document.querySelector("#oitavas1C2D").innerHTML = `${oitava_1C2D[0]}<br/ >${oitava_1C2D[1]}`;
-  document.querySelector("#oitavas1E2F").innerHTML = `${oitava_1E2F[0]}<br/ >${oitava_1E2F[1]}`;
+  document.querySelector("#oitavas1E2F").innerHTML = `${oitava_1B2A[0]}<br/ >${oitava_1B2A[1]}`;
   document.querySelector("#oitavas1G2H").innerHTML = `${oitava_1G2H[0]}<br/ >${oitava_1G2H[1]}`;
-  document.querySelector("#oitavas1B2A").innerHTML = `${oitava_1B2A[0]}<br/ >${oitava_1B2A[1]}`;
+  document.querySelector("#oitavas1B2A").innerHTML = `${oitava_1E2F[0]}<br/ >${oitava_1E2F[1]}`;
   document.querySelector("#oitavas1D2C").innerHTML = `${oitava_1D2C[0]}<br/ >${oitava_1D2C[1]}`;
   document.querySelector("#oitavas1F2E").innerHTML = `${oitava_1F2E[0]}<br/ >${oitava_1F2E[1]}`;
   document.querySelector("#oitavas1H2G").innerHTML = `${oitava_1H2G[0]}<br/ >${oitava_1H2G[1]}`;
